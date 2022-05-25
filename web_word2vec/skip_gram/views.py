@@ -31,9 +31,11 @@ def find_most_similar(request):
             with open(os.path.join(module_dir, 'word_vectors/word_to_id.pkl'), 'rb') as f:
                 word_to_id = pickle.load(f)
 
-            for word_id in cosine_matrix[word_to_id[word]].argsort()[::-1][0:num_words]:
-                similars.append(id_to_word[word_id])
-
+            try:
+                for word_id in cosine_matrix[word_to_id[word]].argsort()[::-1][0:num_words]:
+                    similars.append(id_to_word[word_id])
+            except:
+                similars.append('Word not found')
     form = WordForm()
 
     return render(
